@@ -1,0 +1,63 @@
+// project information
+:project-name: pnix
+:project-repo: https://github.com/polis-dev/pnix
+:description: A summary of this project.
+:author: Jake Logemann
+:email: jake@polis.dev
+
+// Table of Contents
+:toc: preamble
+:toclevels: 4
+:toc-title: Contents
+
+// Icons
+:icons: font
+:new: &#127381;
+:breaking: &#10071;
+
+:showtitle:
+:hide-uri-scheme:
+
+// this hack makes the symbols appear properly on github...
+ifdef::env-github[]
+:tip-caption: :bulb:
+:warning-caption: :exclamation:
+:info-caption: :information_source:
+:note-caption: :memo:
+:caution-caption: :warning:
+endif::[]
+
+This library is ONLY a collection of functions, and does not contain any modules
+(nor dependencies), therefore usage is as simple as:
+
+.Ad-hoc usage via `builtins.getFlake`.
+[source, nix]
+let pnix = builtins.getFlake "github:polis-dev/pnix"; in {
+  networking.hostName = pnix.lib.tabSeparated ["my" "poor" "example"];
+}
+
+.Usage as a Nix Flake.
+[source, nix]
+{
+  inputs = {
+    pnix.url = "github:polis-dev/pnix";
+    nixpkgs.url = "nixos/nixpkgs-unstable";
+  };
+  outputs = { self, nixpkgs, pnix, ... }: {
+    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit self;
+        myHostName = pnix.lib.tabSeparated ["my" "poor" "example"];
+      };
+      modules = [
+        ./configuration.nix
+        ({config, pkgs, myHostName, ...}: {
+          networking.hostName = myHostName;
+        })
+      ];
+      # ....
+    };
+  };
+}
+
+For additional examples, see the most recent execution of link:{project-repo}/actions/workflows/ci.yml[our test workflow].

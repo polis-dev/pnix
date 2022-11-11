@@ -1,0 +1,58 @@
+name: test
+on:
+  push: { paths: ["*.nix", "*.toml"] }
+  pull_request: { paths: ["*.nix", "*.toml"] }
+
+jobs:
+  sanity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the project.
+        uses: actions/checkout@v2
+
+      - name: setup nix.
+        uses: polis-dev/install-nix-action@master
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - run: |
+          #quick sanity checks.
+          _eval(){
+            expr="$@"
+            echo ::group::$1
+            echo ">>> '$@'" && nix eval --impure --json --expr "with builtins.getFlake \"$PWD\"; $@"
+            echo ::endgroup::$1
+          }
+
+          ### summarize the flake to be tested.
+          nix flake show && echo && nix flake metadata && echo
+
+          _eval 'lib.archList'
+          _eval 'lib.colonSeparated ["a" "b" "c"]'
+          _eval 'lib.const'
+          _eval 'lib.currentArch'
+          _eval 'lib.currentDir'
+          _eval 'lib.currentHomeDir'
+          _eval 'lib.currentOS'
+          _eval 'lib.currentShell'
+          _eval 'lib.currentSystem'
+          _eval 'lib.currentSystemPair'
+          _eval 'lib.dashSeparated ["a" "b" "c"]'
+          _eval 'lib.defaultSystems'
+          _eval 'lib.dotSeparated ["a" "b" "c"]'
+          _eval 'lib.isDarwin'
+          _eval 'lib.isFreeBSD'
+          _eval 'lib.isLinux'
+          _eval 'lib.lineSeparated ["a" "b" "c"]'
+          _eval 'lib.nixVersion'
+          _eval 'lib.nixVersionAtLeast "2.10"'
+          _eval 'lib.nixVersionLessThan "5.10"'
+          _eval 'lib.nixVersionMatches "2.11.1"'
+          _eval 'lib.nixVersionOutdated'
+          _eval 'lib.osList'
+          _eval 'lib.pnix.lastModifiedDate'
+          _eval 'lib.pnix.narHash'
+          _eval 'lib.possibleSystems'
+          _eval 'lib.semicolonSeparated ["a" "b" "c"]'
+          _eval 'lib.spaceSeparated ["a" "b" "c"]'
+          _eval 'lib.tabSeparated ["a" "b" "c"]'
