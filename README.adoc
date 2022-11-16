@@ -60,4 +60,4 @@ let pnix = builtins.getFlake "github:polis-dev/pnix"; in {
   };
 }
 
-For additional examples, see the most recent execution of link:{project-repo}/actions/workflows/ci.yml[our test workflow].
+For additional examples, see the most recent execution of link:{project-repo}/actions/workflows/test.yml[our test workflow].
