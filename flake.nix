@@ -18,6 +18,8 @@
       lib.currentUser = lib.getEnvOrDefault "USER" "nobody";
       lib.dashSeparated = concatStringsSep "-";
       lib.defaultSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-darwin" "aarch64-linux"];
+      lib.defaultSystemsMap = lib.eachSystemMap lib.defaultSystems;
+      lib.eachDefaultSystem = lib.eachSystem lib.defaultSystems;
       lib.dotSeparated = concatStringsSep ".";
       lib.fromJSONFile = path: fromJSON (readFile path);
       lib.fromTOMLFile = path: fromTOML (readFile path);
