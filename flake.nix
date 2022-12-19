@@ -19,8 +19,8 @@
       lib.dashSeparated = concatStringsSep "-";
       lib.defaultSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-darwin" "aarch64-linux"];
       lib.defaultSystemsMap = lib.eachSystemMap lib.defaultSystems;
-      lib.eachDefaultSystem = lib.eachSystem lib.defaultSystems;
       lib.dotSeparated = concatStringsSep ".";
+      lib.eachDefaultSystem = lib.eachSystem lib.defaultSystems;
       lib.fromJSONFile = path: fromJSON (readFile path);
       lib.fromTOMLFile = path: fromTOML (readFile path);
       lib.getExe = drv: "${drv}${drv.passthru.exePath or "/bin/${drv.pname or drv.name}"}";
@@ -40,6 +40,7 @@
       lib.isOpenBSD = lib.currentOS == "openbsd";
       lib.isSSH = lib.uriProtoEquals "ssh";
       lib.lineSeparated = concatStringsSep "\n";
+      lib.mapAttrsToList = f: s: builtins.attrValues (builtins.mapAttrs f s);
       lib.nameValuePair = name: value: {inherit name value;};
       lib.nixVersion = nixVersion;
       lib.nixVersionAtLeast = lib.versionAtLeast nixVersion;
