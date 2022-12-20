@@ -1,9 +1,6 @@
 {
   description = "Polis NIX utilities (with zero dependencies!).";
   outputs = _: with builtins; rec {
-      /*
-      trivial (one-liners, self describing)
-      */
       lib.archList = ["x86_64" "aarch64" "powerpc" "riscv32" "riscv64" "mips64el" "mipsel" "armv7l" "i686"];
       lib.colonSeparated = concatStringsSep ":";
       lib.const = lib.fromTOMLFile ./const.toml;
