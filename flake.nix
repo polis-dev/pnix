@@ -1,7 +1,6 @@
 {
   description = "Polis NIX utilities (with zero dependencies!).";
-  outputs = {self}:
-    with builtins; rec {
+  outputs = _: with builtins; rec {
       /*
       trivial (one-liners, self describing)
       */
@@ -40,7 +39,7 @@
       lib.isOpenBSD = lib.currentOS == "openbsd";
       lib.isSSH = lib.uriProtoEquals "ssh";
       lib.lineSeparated = concatStringsSep "\n";
-      lib.mapAttrsToList = f: s: builtins.attrValues (builtins.mapAttrs f s);
+      lib.mapAttrsToList = f: s: attrValues (mapAttrs f s);
       lib.nameValuePair = name: value: {inherit name value;};
       lib.nixVersion = nixVersion;
       lib.nixVersionAtLeast = lib.versionAtLeast nixVersion;
@@ -49,8 +48,6 @@
       lib.nixVersionOutdated = !(lib.nixVersionAtLeast "2.11");
       lib.osList = ["linux" "darwin" "freebsd" "openbsd" "netbsd" "none" "cygwin" "mingw32" "mingw64" "haiku"];
       lib.pipe = val: functions: foldl' (x: f: f x) val functions;
-      lib.pnix.lastModifiedDate = self.sourceInfo.lastModifiedDate;
-      lib.pnix.narHash = self.sourceInfo.narHash;
       lib.possibleSystems = concatMap (arch: map (os: "${arch}-${os}") lib.osList) lib.archList;
       lib.semicolonSeparated = concatStringsSep ";";
       lib.spaceSeparated = concatStringsSep " ";
