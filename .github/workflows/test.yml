@@ -52,8 +52,6 @@ jobs:
           _eval 'lib.nixVersionMatches "2.11.1"'
           _eval 'lib.nixVersionOutdated'
           _eval 'lib.osList'
-          _eval 'lib.pnix.lastModifiedDate'
-          _eval 'lib.pnix.narHash'
           _eval 'lib.possibleSystems'
           _eval 'lib.semicolonSeparated ["a" "b" "c"]'
           _eval 'lib.spaceSeparated ["a" "b" "c"]'
